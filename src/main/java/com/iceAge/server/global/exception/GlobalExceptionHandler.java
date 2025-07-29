@@ -1,0 +1,65 @@
+package com.iceAge.server.global.exception;
+
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
+
+import com.iceAge.server.global.response.ApiResponseData;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+@RestControllerAdvice
+@Slf4j
+public class GlobalExceptionHandler {
+
+  //스프링에서 감지하는 에러들
+  @ExceptionHandler(RuntimeException.class)
+  public ResponseEntity<String> handleRuntimeException(RuntimeException e) {
+    log.error(e.getMessage(), e);
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .body("런타임 오류 발생: " + e.getMessage());
+  }
+
+  @ExceptionHandler(Exception.class)
+  public ResponseEntity<String> handleException(Exception e) {
+    log.error(e.getMessage(), e);
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .body("예상치 못한 오류 발생: " + e.getMessage());
+  }
+
+  // 커스텀 에러처리 가능 (아래 예외 핸들러 추가 하면 됨)
+  @ExceptionHandler(BaseException.class)
+  public ResponseEntity<ApiResponseData<String>> handleBaseException(BaseException e) {
+    log.error(e.getMessage(), e);
+    return ResponseEntity.status(e.getCode().getStatus())
+        .body(ApiResponseData.failure(e.getCode().getCode(), e.getCode().getMessage()));
+  }
+
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public ResponseEntity<ApiResponseData<Object>> handleMethodArgumentNotValidException(
+      MethodArgumentNotValidException e) {
+    log.error(e.getMessage(), e);
+    StringBuilder sb = new StringBuilder();
+    e.getBindingResult().getFieldErrors()
+        .stream().map(DefaultMessageSourceResolvable::getDefaultMessage)
+        .forEach(message -> sb.append(message).append("\n"));
+
+    if (!sb.isEmpty() && sb.charAt(sb.length() - 1) == '\n') {
+      sb.deleteCharAt(sb.length() - 1);  // 마지막 문자가 개행 문자라면 삭제
+    }
+
+    String errorMessages = sb.toString();
+    return ResponseEntity.status(BAD_REQUEST).body(ApiResponseData.failure("0", errorMessages));
+  }
+
+  @ExceptionHandler(AccessDeniedException.class)
+  public ResponseEntity<ApiResponseData<Object>> handleAccessDeniedException(AccessDeniedException e) {
+    return ResponseEntity.status(FORBIDDEN).body(
+        ApiResponseData.failure("U403", "접근 권한이 없습니다."));
+  }
+}
