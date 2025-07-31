@@ -36,8 +36,8 @@ public class SecurityConfig {
         //oatuh2 인증 사용
         http
                 .oauth2Login(oauth2 -> oauth2
-                                .userInfoEndpoint(userInfo -> userInfo
-                                        .userService(customOAuth2UserService)
+                                .userInfoEndpoint((userInfoEndpointConfig ->
+                                        userInfoEndpointConfig.userService(customOAuth2UserService))
                                 ));
 
         // 세션 설정 : STATELESS (상태 비저장)
