@@ -23,14 +23,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private SocialProvider socialProvider;
+    @Column
+    private String username;
 
     @Enumerated(EnumType.STRING)
     private Role role;
-
-    @Column
-    private String providerId;
 
     @Column(length = 100)
     private String email;
@@ -39,11 +36,17 @@ public class User {
     private String nickname;
 
     @Builder
-    public User(SocialProvider socialProvider, Role role, String providerId, String email, String nickname) {
-        this.socialProvider = socialProvider;
+    public User(Role role, String username, String email, String nickname) {
         this.role = role;
-        this.providerId = providerId;
+        this.username = username;
         this.email = email;
         this.nickname = nickname;
     }
+
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void updateEmail(String email) {
+        this.email = email;
 }

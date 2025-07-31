@@ -1,8 +1,15 @@
 package com.iceAge.server.auth.application;
 
+import com.iceAge.server.auth.application.dto.CustomOAuth2User;
 import com.iceAge.server.auth.application.dto.GoogleResponse;
 import com.iceAge.server.auth.application.dto.NaverResponse;
 import com.iceAge.server.auth.application.dto.OAuth2Resposne;
+import com.iceAge.server.auth.application.dto.UserDto;
+import com.iceAge.server.auth.domain.model.Role;
+import com.iceAge.server.auth.domain.model.User;
+import com.iceAge.server.auth.infrastructure.repository.UserRepository;
+import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -12,28 +19,48 @@ import org.springframework.stereotype.Service;
 
 
 @Service
+@RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
+
+    private final UserRepository userRepository;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
-        System.out.println(oAuth2User);
-
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
-        OAuth2Resposne oAuth2Response = null;
+        OAuth2Resposne oAuth2Response = getOAuth2Response(registrationId, oAuth2User);
 
-        if (registrationId.equals("naver")) {
-            oAuth2Response = new NaverResponse(oAuth2User.getAttributes());
-        }
-        else if (registrationId.equals("google")) {
-            oAuth2Response = new GoogleResponse(oAuth2User.getAttributes());
-        }
-        else {
-            return null;
-        }
+        String username = oAuth2Response.getProvider() + " " + oAuth2Response.getProviderId();
+        User user = userRepository.findByUsername(username)
+                .map(existingUser -> updateIfNecessary(existingUser, oAuth2Response))
+                .orElseGet(() -> registerNewUser(username, oAuth2Response));
 
-        //추후 작성
+        return new CustomOAuth2User(UserDto.from(user));
     }
+
+    private OAuth2Resposne getOAuth2Response(String registrationId, OAuth2User oAuth2User) {
+        return switch (registrationId) {
+            case "naver" -> new NaverResponse(oAuth2User.getAttributes());
+            case "google" -> new GoogleResponse(oAuth2User.getAttributes());
+            default -> throw new IllegalArgumentException("지원하지 않는 소셜 로그인: " + registrationId);
+        };
+    }
+
+    private User registerNewUser(String username, OAuth2Resposne response) {
+        User newUser = User.builder()
+                .username(username)
+                .email(response.getEmail())
+                .nickname(response.getNickname())
+                .role(Role.USER)
+                .build();
+        return userRepository.save(newUser);
+    }
+
+    private User updateIfNecessary(User user, OAuth2Resposne response) {
+        user.updateEmail(response.getEmail());
+        user.updateNickname(response.getNickname());
+        return userRepository.save(user);
+    }
+
 }

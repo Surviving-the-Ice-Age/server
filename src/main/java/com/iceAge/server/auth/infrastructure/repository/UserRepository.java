@@ -16,7 +16,7 @@ public class UserRepository {
         return userJpaRepository.save(user);
     }
 
-    public Optional<User> findByProviderAndProviderId(SocialProvider provider, String providerId) {
-        return userJpaRepository.findBySocialProviderAndProviderId(provider, providerId);
+    public Optional<User> findByUsername(String username) {
+        return userJpaRepository.findByUsername(username);
     }
 }
