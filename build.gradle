@@ -35,6 +35,12 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 
+	//genai dependency for java gradle
+	implementation 'com.google.genai:google-genai:1.10.0'
+
+	// env
+	implementation("io.github.cdimascio:java-dotenv:5.2.2")
+
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
