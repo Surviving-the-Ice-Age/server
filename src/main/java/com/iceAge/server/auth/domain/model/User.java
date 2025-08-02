@@ -33,18 +33,18 @@ public class User {
     private String email;
 
     @Column(length = 20)
-    private String nickname;
+    private String name;
 
     @Builder
-    public User(Role role, String username, String email, String nickname) {
+    public User(Role role, String username, String email, String name) {
         this.role = role;
         this.username = username;
         this.email = email;
-        this.nickname = nickname;
+        this.name = name;
     }
 
-    public void updateNickname(String nickname) {
-        this.nickname = nickname;
+    public void updateName(String name) {
+        this.name = name;
     }
 
     public void updateEmail(String email) {

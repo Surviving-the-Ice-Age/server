@@ -8,5 +8,5 @@ public interface OAuth2Resposne {
 
     String getEmail();
 
-    String getNickname();
+    String getName();
 }

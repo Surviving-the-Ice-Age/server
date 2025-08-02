@@ -5,6 +5,7 @@ import com.iceAge.server.auth.application.CustomSuccessHandler;
 import com.iceAge.server.auth.application.JWTFilter;
 import com.iceAge.server.auth.application.JWTUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -61,7 +62,7 @@ public class SecurityConfig {
         //경로별 인가 작업
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/","/api/v1/auth").permitAll()
+                        .requestMatchers("oauth2/authorization").permitAll()
                         .anyRequest().authenticated()
                 );
 
@@ -80,9 +81,8 @@ public class SecurityConfig {
                         configuration.setAllowCredentials(true);
                         configuration.setAllowedHeaders(Collections.singletonList("*"));
                         configuration.setMaxAge(3600L);
+                        configuration.setExposedHeaders(Arrays.asList("Set-Cookie", "Authorization"));
 
-                        configuration.setExposedHeaders(Collections.singletonList("Set-Cookie"));
-                        configuration.setExposedHeaders(Collections.singletonList("Authorization"));
 
                         return configuration;
                     }

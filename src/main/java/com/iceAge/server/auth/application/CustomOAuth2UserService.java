@@ -8,7 +8,6 @@ import com.iceAge.server.auth.application.dto.UserDto;
 import com.iceAge.server.auth.domain.model.Role;
 import com.iceAge.server.auth.domain.model.User;
 import com.iceAge.server.auth.infrastructure.repository.UserRepository;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -51,7 +50,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         User newUser = User.builder()
                 .username(username)
                 .email(response.getEmail())
-                .nickname(response.getNickname())
+                .name(response.getName())
                 .role(Role.USER)
                 .build();
         return userRepository.save(newUser);
@@ -59,7 +58,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private User updateIfNecessary(User user, OAuth2Resposne response) {
         user.updateEmail(response.getEmail());
-        user.updateNickname(response.getNickname());
+        user.updateName(response.getName());
         return userRepository.save(user);
     }
 
