@@ -2,6 +2,7 @@ package com.iceAge.server.global.config;
 
 import com.iceAge.server.auth.application.CustomOAuth2UserService;
 import com.iceAge.server.auth.application.CustomSuccessHandler;
+import com.iceAge.server.auth.application.JWTFilter;
 import com.iceAge.server.auth.application.JWTUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -34,6 +36,10 @@ public class SecurityConfig {
         //HTTP Basic 인증은 비활성화합니다.
         http
                 .httpBasic(httpBasic -> httpBasic.disable());
+
+        //JWT 인증 필터 추가
+        http
+                .addFilterBefore(new JWTFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
         //oatuh2 인증 사용
         http

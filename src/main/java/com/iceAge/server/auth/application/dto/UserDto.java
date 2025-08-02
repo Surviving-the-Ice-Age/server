@@ -9,14 +9,14 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 @Getter
 public class UserDto {
 
-    private Role role;
+    private String role;
     private String nickname;
     private String username;
     private String email;
 
 
     @Builder
-    public UserDto(Role role, String nickname, String username, String email) {
+    public UserDto(String role, String nickname, String username, String email) {
         this.role = role;
         this.nickname = nickname;
         this.username = username;
@@ -25,7 +25,7 @@ public class UserDto {
 
     public static UserDto from(User user) {
         return UserDto.builder()
-                .role(user.getRole())
+                .role(user.getRole().toString())
                 .nickname(user.getNickname())
                 .username(user.getUsername())
                 .email(user.getEmail())
