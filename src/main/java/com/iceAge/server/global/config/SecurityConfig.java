@@ -1,6 +1,9 @@
 package com.iceAge.server.global.config;
 
 import com.iceAge.server.auth.application.CustomOAuth2UserService;
+import com.iceAge.server.auth.application.CustomSuccessHandler;
+import com.iceAge.server.auth.application.JWTUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,13 +13,12 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     private final CustomOAuth2UserService customOAuth2UserService;
-
-    public SecurityConfig(CustomOAuth2UserService customOAuth2UserService) {
-        this.customOAuth2UserService = customOAuth2UserService;
-    }
+    private final CustomSuccessHandler customSuccessHandler;
+    private final JWTUtil jwtUtil;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -35,10 +37,10 @@ public class SecurityConfig {
 
         //oatuh2 인증 사용
         http
-                .oauth2Login(oauth2 -> oauth2
+                .oauth2Login((oauth2) -> oauth2
                                 .userInfoEndpoint((userInfoEndpointConfig ->
-                                        userInfoEndpointConfig.userService(customOAuth2UserService))
-                                ));
+                                        userInfoEndpointConfig.userService(customOAuth2UserService)))
+                        .successHandler(customSuccessHandler));
 
         // 세션 설정 : STATELESS (상태 비저장)
         http
