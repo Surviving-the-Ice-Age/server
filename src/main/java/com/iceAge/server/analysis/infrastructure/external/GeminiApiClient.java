@@ -4,12 +4,8 @@ import com.google.genai.Client;
 import com.google.genai.types.GenerateContentResponse;
 import com.iceAge.server.analysis.presentation.dto.request.TextRequestDTO;
 import com.iceAge.server.analysis.presentation.dto.response.TextResponseDTO;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Description;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service

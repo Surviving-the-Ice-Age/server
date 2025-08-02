@@ -4,5 +4,5 @@ import com.iceAge.server.analysis.presentation.dto.request.TextRequestDTO;
 import com.iceAge.server.analysis.presentation.dto.response.TextResponseDTO;
 
 public interface TextGenerationDomainService {
-  public TextResponseDTO generateText(TextRequestDTO textRequestDTO);
+  TextResponseDTO generateText(TextRequestDTO textRequestDTO);
 }

@@ -38,8 +38,11 @@ dependencies {
 	//genai dependency for java gradle
 	implementation 'com.google.genai:google-genai:1.10.0'
 
-	// env
+	//env
 	implementation("io.github.cdimascio:java-dotenv:5.2.2")
+
+	//webclient
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
