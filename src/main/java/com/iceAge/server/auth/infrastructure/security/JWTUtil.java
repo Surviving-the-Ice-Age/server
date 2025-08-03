@@ -1,4 +1,4 @@
-package com.iceAge.server.auth.application;
+package com.iceAge.server.auth.infrastructure.security;
 
 import io.jsonwebtoken.Jwts;
 import java.nio.charset.StandardCharsets;

@@ -1,4 +1,4 @@
-package com.iceAge.server.auth.application;
+package com.iceAge.server.auth.infrastructure.security;
 
 import com.iceAge.server.auth.application.dto.CustomOAuth2User;
 import jakarta.servlet.ServletException;

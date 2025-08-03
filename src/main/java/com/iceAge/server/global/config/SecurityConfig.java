@@ -1,9 +1,9 @@
 package com.iceAge.server.global.config;
 
-import com.iceAge.server.auth.application.CustomOAuth2UserService;
-import com.iceAge.server.auth.application.CustomSuccessHandler;
-import com.iceAge.server.auth.application.JWTFilter;
-import com.iceAge.server.auth.application.JWTUtil;
+import com.iceAge.server.auth.infrastructure.security.CustomOAuth2UserService;
+import com.iceAge.server.auth.infrastructure.security.CustomSuccessHandler;
+import com.iceAge.server.auth.infrastructure.security.JWTFilter;
+import com.iceAge.server.auth.infrastructure.security.JWTUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Collections;
