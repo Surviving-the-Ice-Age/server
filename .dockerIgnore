@@ -1,0 +1,38 @@
+# 환경변수 파일 제외
+**/env.properties
+**/.env
+env.properties
+.env
+
+# 빌드 파일 제외
+build/
+out/
+.gradle/
+.idea/
+*.log
+*.iml
+
+# Git 관련
+.git/
+.gitignore
+
+# 문서 파일
+*.md
+docs/
+
+# 임시 파일
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+
+# IDE 설정
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Docker 관련
+Dockerfile
+docker-compose.yml
+.dockerignore
