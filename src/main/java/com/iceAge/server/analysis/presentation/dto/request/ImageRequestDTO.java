@@ -1,10 +1,11 @@
 package com.iceAge.server.analysis.presentation.dto.request;
 
 import jakarta.validation.constraints.NotNull;
+import java.util.List;
 import lombok.Getter;
 
 @Getter
-public class TextRequestDTO {
+public class ImageRequestDTO {
   //업종
   @NotNull
   private String category;

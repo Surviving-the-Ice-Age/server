@@ -18,14 +18,6 @@ public class TextGenerationService implements TextGenerationDomainService {
 
   @Override
   public TextResponseDTO generateText(TextRequestDTO textRequestDTO) {
-    if(textRequestDTO.getModel() == null || textRequestDTO.getModel().isEmpty()){
-      throw new BaseException(MODEL_NOT_FOUND);
-    }
-
-    if(textRequestDTO.getPrompt() == null || textRequestDTO.getPrompt().isEmpty()){
-      throw new BaseException(PROMPT_NOT_FOUND);
-    }
-
     return geminiApiClient.generateText(textRequestDTO);
   }
 }
