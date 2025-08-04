@@ -76,7 +76,13 @@ public class SecurityConfig {
 
                         CorsConfiguration configuration = new CorsConfiguration();
 
-                        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
+                        configuration.setAllowedOrigins(
+                                Arrays.asList(
+                                        "http://localhost:3000",
+                                        "https://localhost:3000",
+                                        "https://ssgs-server.agong.store"
+                                )
+                        );
                         configuration.setAllowedMethods(Collections.singletonList("*"));
                         configuration.setAllowCredentials(true);
                         configuration.setAllowedHeaders(Collections.singletonList("*"));

@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final JWTUtil jwtUtil;
-    private static final int COOKIE_MAX_AGE = 60 * 60 * 60; // 쿠키의 유효 기간을 60시간으로 설정
+    private static final int TOKEN_MAX_AGE = 60 * 60 * 60*60; // 쿠키의 유효 기간을 60시간*60으로 설정. 테스트용
     private final String REDIRECT_URL;
 
     public CustomSuccessHandler(JWTUtil jwtUtil, @Value("${app.login.redirect.url}") String redirectUrl) {
@@ -41,7 +41,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         GrantedAuthority auth = iterator.next();
         String role = auth.getAuthority();
 
-        String token = jwtUtil.createJwt(username, role, (long) COOKIE_MAX_AGE);
+        String token = jwtUtil.createJwt(username, role, (long) TOKEN_MAX_AGE);
 
         response.addCookie(createCookie("Authorization", token));
         response.sendRedirect(REDIRECT_URL);
@@ -50,7 +50,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private Cookie createCookie(String key, String value) {
 
         Cookie cookie = new Cookie(key, value);
-        cookie.setMaxAge(COOKIE_MAX_AGE); // 쿠키의 유효 기간을 60시간으로 설정
+        cookie.setMaxAge(TOKEN_MAX_AGE); // 쿠키의 유효 기간을 60시간으로 설정
         cookie.setAttribute("SameSite", "None");
         cookie.setSecure(true);
         cookie.setPath("/");
