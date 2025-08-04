@@ -18,11 +18,17 @@ public enum CommonCode implements Code {
   ALREADY_EXISTS(HttpStatus.OK, "CO202", "이미 존재하는 리소스입니다."),
 
   /**
+   * 인증 10000번대
+   */
+  NOT_SUPPORTED_SOCIAL_PROVIDER(HttpStatus.BAD_REQUEST, "CO10000", "지원하지 않는 소셜 로그인입니다."),
+
+  /**
    * 500번대
    */
   INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "CO500", "예기치 못한 서버 오류가 발생했습니다."),
   INTERNAL_SERVER_MINIO_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "CO500", "Minio 서버 오류가 발생했습니다."),
   ;
+
 
   private final HttpStatus status;
   private final String code;

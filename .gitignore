@@ -42,3 +42,4 @@ out/
 *.properties
 **/docker-compose.yml
 
+.cursor
