@@ -3,7 +3,6 @@ package com.iceAge.server.analysis.presentation.controller;
 import static com.iceAge.server.analysis.infrastructure.code.AnalysisCode.IMAGE_GENERATION_SUCCESS;
 
 import com.iceAge.server.analysis.domain.service.ImageGenerationDomainService;
-import com.iceAge.server.analysis.infrastructure.external.ImagenApiClient;
 import com.iceAge.server.analysis.presentation.dto.request.ImageRequestDTO;
 import com.iceAge.server.analysis.presentation.dto.response.ImageResponseDTO;
 import com.iceAge.server.global.response.ApiResponseData;
@@ -20,8 +19,8 @@ import reactor.core.publisher.Mono;
 public class GenerateImageController {
   private final ImageGenerationDomainService imageGenerationDomainService;
   @PostMapping("/api/generate/image")
-  public Mono<List<String>> getImage(@RequestBody ImageRequestDTO imageRequestDTO){
-    return imageGenerationDomainService.generateImage(imageRequestDTO);
+  public ResponseEntity<ApiResponseData<ImageResponseDTO>> getImage(@RequestBody ImageRequestDTO imageRequestDTO){
+    return ResponseEntity.ok().body(ApiResponseData.of(IMAGE_GENERATION_SUCCESS.getCode(), IMAGE_GENERATION_SUCCESS.getMessage(), imageGenerationDomainService.generateImage(imageRequestDTO)));
   }
 
 }

@@ -2,7 +2,7 @@ package com.iceAge.server.analysis.infrastructure.external;
 
 import com.iceAge.server.analysis.presentation.dto.request.ImageRequest;
 import com.iceAge.server.analysis.presentation.dto.request.ImageRequestDTO;
-import com.iceAge.server.analysis.presentation.dto.response.ImageResponseDTO;
+import com.iceAge.server.analysis.presentation.dto.response.GetImageDTO;
 import com.iceAge.server.global.exception.BaseException;
 import java.util.List;
 
@@ -34,7 +34,7 @@ public class ImagenApiClient {
         .header("Content-Type", "application/json")
         .bodyValue(imageRequest)
         .retrieve()
-        .bodyToMono(ImageResponseDTO.class)
+        .bodyToMono(GetImageDTO.class)
         .map(response -> {
           if (response.getImages() == null || response.getImages().isEmpty()) {
             throw new BaseException("이미지 생성 실패: 응답에 이미지가 없습니다.");

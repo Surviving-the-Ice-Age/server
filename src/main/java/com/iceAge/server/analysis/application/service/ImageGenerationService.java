@@ -9,6 +9,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.iceAge.server.analysis.domain.service.ImageGenerationDomainService;
 import com.iceAge.server.analysis.infrastructure.external.ImagenApiClient;
 import com.iceAge.server.analysis.presentation.dto.request.ImageRequestDTO;
+import com.iceAge.server.analysis.presentation.dto.response.ImageResponseDTO;
 import com.iceAge.server.global.exception.BaseException;
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
@@ -32,9 +33,9 @@ public class ImageGenerationService implements ImageGenerationDomainService {
   private final AmazonS3 s3Client;
 
   @Override
-  public Mono<List<String>> generateImage(ImageRequestDTO imageRequestDTO) {
+  public ImageResponseDTO generateImage(ImageRequestDTO imageRequestDTO) {
     Mono<List<String>> base64Images = imagenApiClient.generateImage(imageRequestDTO);
-    return uploadImagesToS3(base64Images);
+    return new ImageResponseDTO(uploadImagesToS3(base64Images).block());
   }
 
   // 여러개의 파일 업로드
