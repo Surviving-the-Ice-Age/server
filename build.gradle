@@ -43,6 +43,24 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 
+	//genai dependency for java gradle
+	implementation 'com.google.genai:google-genai:1.10.0'
+
+	//env
+	implementation("io.github.cdimascio:java-dotenv:5.2.2")
+
+	//webclient
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+	//jackson
+	implementation 'com.fasterxml.jackson.core:jackson-databind'
+
+	//AWS 연결
+	implementation 'io.awspring.cloud:spring-cloud-aws-starter:3.1.1'
+
+	//s3 연결
+	implementation 'com.amazonaws:aws-java-sdk-s3:1.12.767'
+
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
