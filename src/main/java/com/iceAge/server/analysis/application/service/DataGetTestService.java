@@ -19,4 +19,16 @@ public class DataGetTestService implements DataGetTestDomainService {
         .retrieve()
         .bodyToMono(String.class); // FastAPI 응답을 Mono<String>으로 변환
   }
+
+  @Override
+  public Mono<String> getFastApi(String district){
+    return webClient.get()
+        .uri(uriBuilder -> uriBuilder
+            .path("/api/resident/gender-age")
+            .queryParam("trdar_cd", district)
+            .build())
+        .header("accept", "application/json")
+        .retrieve()
+        .bodyToMono(String.class);
+  }
 }

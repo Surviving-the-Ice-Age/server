@@ -4,4 +4,5 @@ import reactor.core.publisher.Mono;
 
 public interface DataGetTestDomainService {
   Mono<String> getDataTest();
+  Mono<String> getFastApi(String district);
 }
