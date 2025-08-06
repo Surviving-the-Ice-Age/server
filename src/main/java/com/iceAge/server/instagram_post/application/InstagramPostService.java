@@ -5,6 +5,7 @@ import com.iceAge.server.instagram_post.application.dto.InstagramPostResponseDto
 import com.iceAge.server.instagram_post.domain.model.InstagramPost;
 import com.iceAge.server.instagram_post.domain.repository.InstagramPostRepository;
 import com.iceAge.server.instagram_post.domain.service.InstagramApiService;
+import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class InstagramPostService {
 
     private final InstagramPostRepository instagramPostRepository;
     private final InstagramApiService instagramApiService;
-
+    private static final int INSIGHTS_DURATION_DAYS = 7; // 인사이트 조회 기간 (7일)
     /**
      * 인스타그램 포스트 업로드
      */
@@ -42,7 +43,13 @@ public class InstagramPostService {
             log.info("인스타그램 포스트 게시 완료: {}", postId);
 
             // 4. 포스트 정보 저장
-            InstagramPost instagramPost = InstagramPost.builder().postId(postId).build();
+            // todo - 유저 정보와 연결 필요
+            InstagramPost instagramPost = InstagramPost.
+                    builder()
+                    .postId(postId)
+                    .insightsStartDate(LocalDate.now())
+                    .insightsEndDate(LocalDate.now().plusDays(INSIGHTS_DURATION_DAYS))
+                    .build();
             instagramPostRepository.save(instagramPost);
 
             return InstagramPostResponseDto.of(postId, "포스트 업로드 성공");

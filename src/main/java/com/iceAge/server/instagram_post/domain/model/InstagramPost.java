@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -47,6 +48,12 @@ public class InstagramPost extends BaseEntity {
 
     @Column
     private Long saved; // 저장 수
+
+    @Column
+    private LocalDate insightsStartDate; // 인사이트 시작 날짜
+
+    @Column
+    private LocalDate insightsEndDate; // 인사이트 종료 날짜
 
     public void updateInstagramPostFromInsights(Long views, Long likes, Long comments, Long saved) {
         this.views = views;
