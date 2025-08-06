@@ -43,9 +43,16 @@ public class InstagramPost extends BaseEntity {
     private Long likes; // 좋아요 수
 
     @Column
-    private Long comments; // 댓글 수
+    private Long commentsCount; // 댓글 수
 
     @Column
     private Long saved; // 저장 수
+
+    public void updateInstagramPostFromInsights(Long views, Long likes, Long comments, Long saved) {
+        this.views = views;
+        this.likes = likes;
+        this.commentsCount = comments;
+        this.saved = saved;
+    }
 
 }

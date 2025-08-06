@@ -24,6 +24,9 @@ public class InstagramPostComment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false,unique = true)
+    private String commentId; // 댓글 ID (인스타그램 제공 고유 식별자)
+
     @JoinColumn(name = "post_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private InstagramPost instagramPost; // 댓글이 달린 게시글
