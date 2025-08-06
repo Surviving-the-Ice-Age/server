@@ -18,6 +18,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class GenerateImageController {
   private final ImageGenerationDomainService imageGenerationDomainService;
+
   @PostMapping("/api/generate/image")
   public ResponseEntity<ApiResponseData<ImageResponseDTO>> getImage(@RequestBody ImageRequestDTO imageRequestDTO){
     return ResponseEntity.ok().body(ApiResponseData.of(IMAGE_GENERATION_SUCCESS.getCode(), IMAGE_GENERATION_SUCCESS.getMessage(), imageGenerationDomainService.generateImage(imageRequestDTO)));
