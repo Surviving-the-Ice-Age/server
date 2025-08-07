@@ -1,5 +1,6 @@
 package com.iceAge.server.auth.domain.model;
 
+import com.iceAge.server.analysis.domain.model.Promotion;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -7,11 +8,17 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.w3c.dom.stylesheets.LinkStyle;
 
 @Entity
 @Table(name = "user")
@@ -34,6 +41,15 @@ public class User {
 
     @Column(length = 20)
     private String name;
+
+    @OneToMany(mappedBy = "user")
+    private List<Promotion> promotion;
+
+    public void addPromotionList(Promotion promotion){
+        this.promotion.add(promotion);
+        promotion.setUser(this);
+    }
+
 
     @Builder
     public User(Role role, String username, String email, String name) {
