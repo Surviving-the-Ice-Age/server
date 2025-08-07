@@ -13,7 +13,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @Service
-@Slf4j
 public class ImagenApiClient {
   @Value("${image.api-url}")
   private String API_URL;

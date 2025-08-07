@@ -38,6 +38,6 @@ out/
 .vscode/
 
 *.properties
-**/docker-compose.yml
+
 
 .cursor

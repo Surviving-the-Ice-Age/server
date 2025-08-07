@@ -62,8 +62,9 @@ public class SecurityConfig {
         //경로별 인가 작업
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("oauth2/authorization").permitAll()
-                        .anyRequest().permitAll()
+                        .requestMatchers("/oauth2/authorization").permitAll()
+                        .anyRequest().authenticated()
+
                 );
 
         // CORS 설정
@@ -80,7 +81,8 @@ public class SecurityConfig {
                                 Arrays.asList(
                                         "http://localhost:3000",
                                         "https://localhost:3000",
-                                        "https://ssgs-server.agong.store"
+                                        "https://ssgs-server.agong.store",
+                                        "https://ssgs-data.agong.store"
                                 )
                         );
                         configuration.setAllowedMethods(Collections.singletonList("*"));
