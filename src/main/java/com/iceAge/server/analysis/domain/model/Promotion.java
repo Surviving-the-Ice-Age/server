@@ -3,11 +3,14 @@ package com.iceAge.server.analysis.domain.model;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iceAge.server.analysis.presentation.dto.request.PromotionRequestDTO;
+import com.iceAge.server.auth.domain.model.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import java.io.IOException;
@@ -15,6 +18,7 @@ import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.context.annotation.Description;
 
 @Description("홍보 데이터")
@@ -35,6 +39,11 @@ public class Promotion {
 
   @Transient // DB에 저장하지 않는 임시 필드
   private List<String> imgLinks;
+
+  @ManyToOne
+  @Setter
+  @JoinColumn(name = "user_id")
+  private User user;
 
   // Jackson ObjectMapper (Spring에서 주입받거나 static으로 초기화)
   private static final ObjectMapper objectMapper = new ObjectMapper();
