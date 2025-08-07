@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface JpaPromotionRepository extends JpaRepository<Promotion, Long> {
-
+  Promotion findByIdAndUserId(long id, long user_id);
 }

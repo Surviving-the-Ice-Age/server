@@ -4,6 +4,7 @@ import static com.iceAge.server.analysis.infrastructure.code.AnalysisCode.PROMOT
 
 import com.iceAge.server.analysis.domain.service.PromotionDomainService;
 import com.iceAge.server.analysis.presentation.dto.request.PromotionRequestDTO;
+import com.iceAge.server.analysis.presentation.dto.response.PromotionResponseDTO;
 import com.iceAge.server.auth.application.dto.CustomOAuth2User;
 import com.iceAge.server.global.response.ApiResponseData;
 import jakarta.validation.constraints.Null;
@@ -20,10 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class PromotionController {
   private final PromotionDomainService promotionDomainService;
   @PostMapping("/api/promotion")
-  public ResponseEntity<ApiResponseData<String>> savePromotion(@RequestBody PromotionRequestDTO promotionRequestDTO, @AuthenticationPrincipal
+  public ResponseEntity<ApiResponseData<PromotionResponseDTO>> savePromotion(@RequestBody PromotionRequestDTO promotionRequestDTO, @AuthenticationPrincipal
   CustomOAuth2User customOAuth2User){
-    promotionDomainService.savePromotion(promotionRequestDTO, customOAuth2User);
     return ResponseEntity.ok().body(ApiResponseData.of(PROMOTION_SAVE_SUCCESS.getCode(),
-        PROMOTION_SAVE_SUCCESS.getMessage(), "홍보물을 성공적으로 저장하였습니다."));
+        PROMOTION_SAVE_SUCCESS.getMessage(), promotionDomainService.savePromotion(promotionRequestDTO, customOAuth2User)));
   }
 }

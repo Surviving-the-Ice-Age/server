@@ -16,4 +16,9 @@ public class PromotionRepositoryImpl implements PromotionRepository {
     return jpaPromotionRepository.save(promotion);
   }
 
+  @Override
+  public Promotion findByIdAndUserId(long id, long user_id){
+    return jpaPromotionRepository.findByIdAndUserId(id, user_id);
+  }
+
 }

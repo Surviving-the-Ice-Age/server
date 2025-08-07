@@ -6,6 +6,7 @@ import com.iceAge.server.analysis.domain.model.Promotion;
 import com.iceAge.server.analysis.domain.repository.PromotionRepository;
 import com.iceAge.server.analysis.domain.service.PromotionDomainService;
 import com.iceAge.server.analysis.presentation.dto.request.PromotionRequestDTO;
+import com.iceAge.server.analysis.presentation.dto.response.PromotionResponseDTO;
 import com.iceAge.server.auth.application.dto.CustomOAuth2User;
 import com.iceAge.server.auth.domain.model.User;
 import com.iceAge.server.auth.infrastructure.repository.UserRepository;
@@ -27,7 +28,7 @@ public class PromotionService implements PromotionDomainService {
   private final UserRepository userRepository;
 
   @Override
-  public void savePromotion(PromotionRequestDTO promotionRequestDTO, @AuthenticationPrincipal CustomOAuth2User customOAuth2User) {
+  public PromotionResponseDTO savePromotion(PromotionRequestDTO promotionRequestDTO, @AuthenticationPrincipal CustomOAuth2User customOAuth2User) {
     User user = userRepository.findByUsername(customOAuth2User.getUsername()).orElseThrow(() -> new BaseException(USER_NOT_FOUND));
 
     Promotion promotion =  promotionRepository.save(new Promotion(promotionRequestDTO));
@@ -36,5 +37,7 @@ public class PromotionService implements PromotionDomainService {
     user.addPromotionList(promotion);
 
     userRepository.save(user);
+
+    return new PromotionResponseDTO(promotion.getId());
   }
 }

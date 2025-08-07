@@ -1,7 +1,6 @@
 package com.iceAge.server.instagram_post.infrastructure.scheduler;
 
 import com.iceAge.server.instagram_post.application.service.InstagramInsightService;
-import com.iceAge.server.instagram_post.infrastructure.config.InstagramInsightConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -18,8 +17,6 @@ import org.springframework.stereotype.Component;
 public class InstagramInsightScheduler {
 
     private final InstagramInsightService instagramInsightService;
-    private final InstagramInsightConfig insightConfig;
-
     /**
      * 매 시간마다 인스타그램 포스트 인사이트를 업데이트합니다.
      * cron 표현식: 0 0 * * * * (매 시간 정각)

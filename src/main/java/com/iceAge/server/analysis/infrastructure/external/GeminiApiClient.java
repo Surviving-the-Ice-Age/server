@@ -26,9 +26,9 @@ public class GeminiApiClient {
   @Description("Gemini로 텍스트를 생성하여 반환")
   public TextResponseDTO generateText(TextRequestDTO textRequestDTO){
 
-    String str = "내가 창업을 하려고 하는데, 업종은" + textRequestDTO.getCategory() + "이고, 지역은 " + textRequestDTO.getRegion() + "이고, 상권은 " + textRequestDTO.getDistrict() + "로 설정했어."
+    String str = "자, 넌 이제 마케팅 담당자이자 홍보 담당자이자 인스타그램에 홍보물을 업로드하는 전문가야. 내가 창업을 하려고 하는데, 업종은" + textRequestDTO.getCategory() + "이고, 지역은 " + textRequestDTO.getRegion() + "이고, 상권은 " + textRequestDTO.getDistrict() + "로 설정했어."
         + "주요 메뉴는 " + textRequestDTO.getMenu() + "이고, 컨셉은 " + textRequestDTO.getConcept() + "로 설정하려고 해. 그리고 주요 키워드는 " + textRequestDTO.getKeyword() +
-        "로 설정할거야. 지금까지의 정보들을 바탕으로 가게홍보, 해시태그, 광고 문구를 작성해줘";
+        "로 설정할거야. 굵은 텍스트를 표시하기 위한 * 넣지말고, [,] 와 같은 괄호넣지 말고, 인스타그램을 사용하는 사용자들에게 제공하는 텍스트를 만들려고 하는거야. 그러니 그에 걸맞는 내용만 들어가도록 텍스트를 생성해줘 우리에게 대답하는 문장은 제외해줘야해";
 
     GenerateContentResponse response =
         client.models.generateContent(

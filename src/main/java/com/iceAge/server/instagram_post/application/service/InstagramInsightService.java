@@ -2,22 +2,18 @@ package com.iceAge.server.instagram_post.application.service;
 
 import com.iceAge.server.instagram_post.application.dto.InstagramCommentsApiResponseDto;
 import com.iceAge.server.instagram_post.application.dto.InstagramInsightApiResponseDto;
-import com.iceAge.server.instagram_post.application.dto.InstagramInsightResponseDto;
 import com.iceAge.server.instagram_post.domain.model.InstagramPost;
 import com.iceAge.server.instagram_post.domain.model.InstagramPostComment;
+import com.iceAge.server.instagram_post.domain.service.InstagramApiService;
 import com.iceAge.server.instagram_post.infrastructure.repository.InstagramPostCommentJpaRepository;
 import com.iceAge.server.instagram_post.infrastructure.repository.InstagramPostJpaRepository;
-import com.iceAge.server.instagram_post.infrastructure.config.InstagramInsightConfig;
-import com.iceAge.server.instagram_post.domain.service.InstagramApiService;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -28,7 +24,6 @@ public class InstagramInsightService {
     private final InstagramApiService instagramApiService;
     private final InstagramPostJpaRepository instagramPostJpaRepository;
     private final InstagramPostCommentJpaRepository instagramPostCommentJpaRepository;
-    private final InstagramInsightConfig insightConfig;
 
     /**
      * 인사이트 기간 내의 모든 게시글들의 인사이트 정보를 업데이트합니다.

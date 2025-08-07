@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iceAge.server.analysis.presentation.dto.request.PromotionRequestDTO;
 import com.iceAge.server.auth.domain.model.User;
+import com.iceAge.server.instagram_post.domain.model.InstagramPost;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import java.io.IOException;
@@ -44,6 +46,11 @@ public class Promotion {
   @Setter
   @JoinColumn(name = "user_id")
   private User user;
+
+  @OneToOne
+  @Setter
+  @JoinColumn(name = "instagram_id")
+  private InstagramPost instagramPost;
 
   // Jackson ObjectMapper (Spring에서 주입받거나 static으로 초기화)
   private static final ObjectMapper objectMapper = new ObjectMapper();

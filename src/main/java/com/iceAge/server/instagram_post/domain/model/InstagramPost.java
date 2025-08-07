@@ -1,5 +1,6 @@
 package com.iceAge.server.instagram_post.domain.model;
 
+import com.iceAge.server.analysis.domain.model.Promotion;
 import com.iceAge.server.auth.domain.model.User;
 import com.iceAge.server.global.utils.BaseEntity;
 import jakarta.persistence.Column;
@@ -10,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import lombok.AccessLevel;
@@ -17,6 +19,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
@@ -30,9 +33,9 @@ public class InstagramPost extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(name = "user_id")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    @Setter
+    @OneToOne(mappedBy = "instagramPost")
+    private Promotion promotion;
 
     @Column(nullable = false, unique = true, updatable = false)
     private String postId;
@@ -67,6 +70,11 @@ public class InstagramPost extends BaseEntity {
     public void updateInsightsDates(LocalDate startDate, LocalDate endDate) {
         this.insightsStartDate = startDate;
         this.insightsEndDate = endDate;
+    }
+
+    public void addPromotion(Promotion promotion){
+        this.promotion = promotion;
+        promotion.setInstagramPost(this);
     }
 
 }
