@@ -79,3 +79,8 @@ image:
 
 fastApi:
   url: ${FAST_API_URL}
+
+instagram:
+  access-token: ${INSTAGRAM_ACCESS_TOKEN}
+  app-id: ${INSTAGRAM_APP_ID}
+  url: ${FAST_API_URL}

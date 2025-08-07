@@ -37,8 +37,7 @@ out/
 ### VS Code ###
 .vscode/
 
-
 *.properties
-**/docker-compose.yml
+
 
 .cursor

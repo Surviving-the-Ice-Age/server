@@ -64,6 +64,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/oauth2/authorization").permitAll()
                         .anyRequest().authenticated()
+
                 );
 
         // CORS 설정
