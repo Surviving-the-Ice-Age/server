@@ -12,4 +12,5 @@ public interface InstagramPostJpaRepository extends JpaRepository<InstagramPost,
     Optional<InstagramPost> findByPostId(String postId);
 
     boolean existsByPostId(String postId);
+
 }

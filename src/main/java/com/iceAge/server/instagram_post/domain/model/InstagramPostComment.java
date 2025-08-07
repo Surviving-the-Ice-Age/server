@@ -10,12 +10,18 @@ import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Table(name = "post_comment",
-        indexes = {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
+@Table(name = "post_comment", indexes = {
         @Index(name = "idx_post_id", columnList = "postId")
 })
 public class InstagramPostComment {
@@ -24,7 +30,7 @@ public class InstagramPostComment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false, unique = true)
     private String commentId; // 댓글 ID (인스타그램 제공 고유 식별자)
 
     @JoinColumn(name = "post_id", nullable = false)
@@ -33,4 +39,12 @@ public class InstagramPostComment {
 
     @Column
     private String comments; // 댓글 내용
+
+    public static InstagramPostComment createComment(String commentId, InstagramPost instagramPost, String comments) {
+        return InstagramPostComment.builder()
+                .commentId(commentId)
+                .instagramPost(instagramPost)
+                .comments(comments)
+                .build();
+    }
 }

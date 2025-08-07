@@ -1,31 +1,36 @@
 package com.iceAge.server.instagram_post.domain.service;
 
+import com.iceAge.server.instagram_post.application.dto.InstagramCommentsApiResponseDto;
+import com.iceAge.server.instagram_post.application.dto.InstagramInsightApiResponseDto;
 import java.util.List;
 
+/**
+ * Instagram API 연동을 위한 도메인 서비스 인터페이스
+ */
 public interface InstagramApiService {
 
     /**
-     * 인스타그램 이미지 컨테이너 생성
-     * 
-     * @param imageUrls 업로드할 이미지 URL 목록
-     * @return 생성된 컨테이너 ID 목록
+     * 이미지 컨테이너들을 생성합니다.
      */
     List<String> createImageContainer(List<String> imageUrls);
 
     /**
-     * 인스타그램 게시글 컨테이너 생성
-     *
-     * @param containerIds 이미지 컨테이너 ID 목록
-     * @param caption      포스트 캡션
-     * @return 생성된 게시글 컨테이너 ID
+     * 게시글 컨테이너를 생성합니다.
      */
     String createPostContainer(List<String> containerIds, String caption);
 
     /**
-     * 인스타그램 포스트 게시
-     *
-     * @param creationId 게시글 컨테이너 ID
-     * @return 게시된 포스트 ID
+     * 게시글을 게시합니다.
      */
     String publishPost(String creationId);
+
+    /**
+     * 게시글의 인사이트 정보를 조회합니다.
+     */
+    InstagramInsightApiResponseDto getPostInsights(String postId);
+
+    /**
+     * 게시글의 댓글을 조회합니다.
+     */
+    InstagramCommentsApiResponseDto getPostComments(String postId);
 }

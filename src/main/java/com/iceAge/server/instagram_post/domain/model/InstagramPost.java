@@ -60,6 +60,13 @@ public class InstagramPost extends BaseEntity {
         this.likes = likes;
         this.commentsCount = comments;
         this.saved = saved;
+        this.insightsStartDate = LocalDate.now();
+        this.insightsEndDate = LocalDate.now();
+    }
+
+    public void updateInsightsDates(LocalDate startDate, LocalDate endDate) {
+        this.insightsStartDate = startDate;
+        this.insightsEndDate = endDate;
     }
 
 }
