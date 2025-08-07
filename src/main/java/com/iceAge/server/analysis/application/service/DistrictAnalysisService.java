@@ -2,8 +2,13 @@ package com.iceAge.server.analysis.application.service;
 
 import com.iceAge.server.analysis.domain.service.DataAnalysisDomainService;
 import com.iceAge.server.analysis.infrastructure.external.DistrictApiClient;
+import com.iceAge.server.analysis.presentation.dto.request.CommentRequestDTO;
 import com.iceAge.server.analysis.presentation.dto.response.AllAnalysisResponseDTO;
 import com.iceAge.server.analysis.presentation.dto.response.DistrictAnalysisResponseDTO;
+import com.iceAge.server.analysis.presentation.dto.response.LargeCommentResponseDTO;
+import com.iceAge.server.analysis.presentation.dto.response.ScoreResponseDTO;
+import com.iceAge.server.analysis.presentation.dto.response.SmallCommentResponseDTO;
+import com.iceAge.server.analysis.presentation.dto.response.SummaryResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -54,4 +59,30 @@ public class DistrictAnalysisService implements DataAnalysisDomainService {
 
     return new AllAnalysisResponseDTO(salesGender, salesTime, salesAge, salesMonthly, storeCount, storeOpen, storeClose, storeFranchise);
   }
+
+  @Override
+  public ScoreResponseDTO getScoreData(int districtCode, String categoryCode){
+    String score_path = "/api/score";
+
+    return districtApiClient.getScoreData(districtCode, categoryCode, score_path).block();
+  }
+
+  @Override
+  public LargeCommentResponseDTO getLargeCommentAnalysis(CommentRequestDTO commentRequestDTO){
+    String large_path = "/sentiment/predict";
+    return districtApiClient.getLargeCommentData(commentRequestDTO, large_path).block();
+  }
+
+  @Override
+  public SmallCommentResponseDTO getSmallCommentAnalysis(CommentRequestDTO commentRequestDTO){
+    String small_path = "/sentiment/predict";
+    return districtApiClient.getSmallCommentData(commentRequestDTO, small_path).block();
+  }
+
+  @Override
+  public SummaryResponseDTO getSummaryData(int districtCode){
+    String summary_path = "/api/area/summary";
+    return districtApiClient.getSummaryData(districtCode, summary_path).block();
+  }
+
 }

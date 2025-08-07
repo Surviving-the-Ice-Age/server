@@ -2,8 +2,14 @@ package com.iceAge.server.analysis.infrastructure.external;
 
 import static com.iceAge.server.analysis.infrastructure.code.AnalysisCode.DISTRICT_RESPONSE_ERROR;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.iceAge.server.analysis.presentation.dto.request.CommentRequestDTO;
 import com.iceAge.server.analysis.presentation.dto.response.AllResponseDTO;
 import com.iceAge.server.analysis.presentation.dto.response.DistrictResponseDTO;
+import com.iceAge.server.analysis.presentation.dto.response.LargeCommentResponseDTO;
+import com.iceAge.server.analysis.presentation.dto.response.ScoreResponseDTO;
+import com.iceAge.server.analysis.presentation.dto.response.SmallCommentResponseDTO;
+import com.iceAge.server.analysis.presentation.dto.response.SummaryResponseDTO;
 import com.iceAge.server.global.exception.BaseException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -72,6 +78,47 @@ public class DistrictApiClient {
           }
           return Mono.error(new BaseException(DISTRICT_RESPONSE_ERROR));
         });
+  }
+
+  public Mono<ScoreResponseDTO> getScoreData(int districtCode, String categoryCode, String path) {
+    return fastApiWebClient.get()
+        .uri(uriBuilder -> uriBuilder
+            .path(path)
+            .queryParam("trdar_cd", districtCode)
+            .queryParam("induty_cd", categoryCode)
+            .build())
+        .retrieve()
+        .bodyToMono(ScoreResponseDTO.class);
+  }
+
+  public Mono<LargeCommentResponseDTO> getLargeCommentData(CommentRequestDTO commentRequestDTO, String path) {
+    return fastApiWebClient.post()
+        .uri(uriBuilder -> uriBuilder
+            .path(path)
+            .build())
+        .bodyValue(commentRequestDTO)
+        .retrieve()
+        .bodyToMono(LargeCommentResponseDTO.class);
+  }
+
+  public Mono<SmallCommentResponseDTO> getSmallCommentData(CommentRequestDTO commentRequestDTO, String path) {
+    return fastApiWebClient.post()
+        .uri(uriBuilder -> uriBuilder
+            .path(path)
+            .build())
+        .bodyValue(commentRequestDTO)
+        .retrieve()
+        .bodyToMono(SmallCommentResponseDTO.class);
+  }
+
+  public Mono<SummaryResponseDTO> getSummaryData(int districtCode, String path) {
+    return fastApiWebClient.get()
+        .uri(uriBuilder -> uriBuilder
+            .path(path)
+            .queryParam("trdar_cd", districtCode)
+            .build())
+        .retrieve()
+        .bodyToMono(SummaryResponseDTO.class);
   }
 
 }

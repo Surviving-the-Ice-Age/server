@@ -15,6 +15,9 @@ public enum AnalysisCode implements Code {
   PROMOTION_SAVE_SUCCESS(HttpStatus.OK, "AN202", "홍보물을 성공적으로 저장하였습니다."),
   DISTRICT_ANALYSIS_SUCCESS(HttpStatus.OK, "AN203", "상권 분석 결과를 성공적으로 응답하였습니다"),
   ANALYSIS_SUCCESS(HttpStatus.OK, "AN204", "분석 결과를 성공적으로 응답하였습니다"),
+  SUMMARY_SUCCESS(HttpStatus.OK, "AN205", "요약 결과를 성공적으로 응답하였습니다"),
+  SCORE_SUCCESS(HttpStatus.OK, "AN206", "분석 점수를 성공적으로 응답하였습니다"),
+  COMMENT_ANALYSIS_SUCCESS(HttpStatus.OK, "AN207", "댓글 감정분석에 성공하였습니다."),
 
 
   //요청 실패 코드
