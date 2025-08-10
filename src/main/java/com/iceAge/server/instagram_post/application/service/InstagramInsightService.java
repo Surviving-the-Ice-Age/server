@@ -1,6 +1,8 @@
 package com.iceAge.server.instagram_post.application.service;
 
 import com.iceAge.server.auth.application.dto.CustomOAuth2User;
+import com.iceAge.server.global.exception.BaseException;
+import com.iceAge.server.global.response.CommonCode;
 import com.iceAge.server.instagram_post.application.dto.InstagramCommentsApiResponseDto;
 import com.iceAge.server.instagram_post.application.dto.InstagramInsightApiResponseDto;
 import com.iceAge.server.instagram_post.application.dto.InstagramInsightResponseDto;
@@ -37,10 +39,11 @@ public class InstagramInsightService {
     public InstagramInsightResponseDto getInsightsSummary(long promotionId, CustomOAuth2User customOAuth2User) {
         // TODO: 사용자 권한 검증(프로모션 소유자 확인) 필요 시 User 조회 추가
         Promotion promotion = jpaPromotionRepository.findById(promotionId)
-            .orElseThrow(() -> new IllegalArgumentException("프로모션을 찾을 수 없습니다: " + promotionId));
+                .orElseThrow(() -> new BaseException(
+                        CommonCode.INVALID_PROMOTION_ID));
 
         InstagramPost instagramPost = Optional.ofNullable(promotion.getInstagramPost())
-            .orElseThrow(() -> new IllegalStateException("프로모션에 연결된 인스타그램 포스트가 없습니다: " + promotionId));
+                .orElseThrow(() -> new IllegalStateException("프로모션에 연결된 인스타그램 포스트가 없습니다: " + promotionId));
 
         int postIdAsInt;
         try {
@@ -58,14 +61,14 @@ public class InstagramInsightService {
         String endDate = Optional.ofNullable(instagramPost.getInsightsEndDate()).map(Object::toString).orElse(null);
 
         return InstagramInsightResponseDto.builder()
-            .postId(postIdAsInt)
-            .views(views)
-            .likes(likes)
-            .commentsCount(comments)
-            .saved(saved)
-            .insightsStartDate(startDate)
-            .insightsEndDate(endDate)
-            .build();
+                .postId(postIdAsInt)
+                .views(views)
+                .likes(likes)
+                .commentsCount(comments)
+                .saved(saved)
+                .insightsStartDate(startDate)
+                .insightsEndDate(endDate)
+                .build();
     }
 
     /**

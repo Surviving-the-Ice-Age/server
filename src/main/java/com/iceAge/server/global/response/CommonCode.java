@@ -23,6 +23,11 @@ public enum CommonCode implements Code {
   NOT_SUPPORTED_SOCIAL_PROVIDER(HttpStatus.BAD_REQUEST, "CO10000", "지원하지 않는 소셜 로그인입니다."),
 
   /**
+   * 요청 오류 400번대 (도메인 공통)
+   */
+  INVALID_PROMOTION_ID(HttpStatus.BAD_REQUEST, "PR40001", "존재하지 않는 프로모션입니다."),
+
+  /**
    * 500번대
    */
   INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "CO500", "예기치 못한 서버 오류가 발생했습니다."),
