@@ -1,14 +1,19 @@
 package com.iceAge.server.instagram_post.application.service;
 
+import com.iceAge.server.auth.application.dto.CustomOAuth2User;
 import com.iceAge.server.instagram_post.application.dto.InstagramCommentsApiResponseDto;
 import com.iceAge.server.instagram_post.application.dto.InstagramInsightApiResponseDto;
+import com.iceAge.server.instagram_post.application.dto.InstagramInsightResponseDto;
 import com.iceAge.server.instagram_post.domain.model.InstagramPost;
 import com.iceAge.server.instagram_post.domain.model.InstagramPostComment;
 import com.iceAge.server.instagram_post.domain.service.InstagramApiService;
 import com.iceAge.server.instagram_post.infrastructure.repository.InstagramPostCommentJpaRepository;
 import com.iceAge.server.instagram_post.infrastructure.repository.InstagramPostJpaRepository;
+import com.iceAge.server.analysis.infrastructure.repository.JpaPromotionRepository;
+import com.iceAge.server.analysis.domain.model.Promotion;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +29,44 @@ public class InstagramInsightService {
     private final InstagramApiService instagramApiService;
     private final InstagramPostJpaRepository instagramPostJpaRepository;
     private final InstagramPostCommentJpaRepository instagramPostCommentJpaRepository;
+    private final JpaPromotionRepository jpaPromotionRepository;
+
+    /**
+     * 프로모션 ID에 연결된 게시글의 인사이트 요약을 조회합니다.
+     */
+    public InstagramInsightResponseDto getInsightsSummary(long promotionId, CustomOAuth2User customOAuth2User) {
+        // TODO: 사용자 권한 검증(프로모션 소유자 확인) 필요 시 User 조회 추가
+        Promotion promotion = jpaPromotionRepository.findById(promotionId)
+            .orElseThrow(() -> new IllegalArgumentException("프로모션을 찾을 수 없습니다: " + promotionId));
+
+        InstagramPost instagramPost = Optional.ofNullable(promotion.getInstagramPost())
+            .orElseThrow(() -> new IllegalStateException("프로모션에 연결된 인스타그램 포스트가 없습니다: " + promotionId));
+
+        int postIdAsInt;
+        try {
+            postIdAsInt = Integer.parseInt(instagramPost.getPostId());
+        } catch (NumberFormatException e) {
+            postIdAsInt = 0;
+        }
+
+        long views = Optional.ofNullable(instagramPost.getViews()).orElse(0L);
+        long likes = Optional.ofNullable(instagramPost.getLikes()).orElse(0L);
+        long comments = Optional.ofNullable(instagramPost.getCommentsCount()).orElse(0L);
+        long saved = Optional.ofNullable(instagramPost.getSaved()).orElse(0L);
+
+        String startDate = Optional.ofNullable(instagramPost.getInsightsStartDate()).map(Object::toString).orElse(null);
+        String endDate = Optional.ofNullable(instagramPost.getInsightsEndDate()).map(Object::toString).orElse(null);
+
+        return InstagramInsightResponseDto.builder()
+            .postId(postIdAsInt)
+            .views(views)
+            .likes(likes)
+            .commentsCount(comments)
+            .saved(saved)
+            .insightsStartDate(startDate)
+            .insightsEndDate(endDate)
+            .build();
+    }
 
     /**
      * 인사이트 기간 내의 모든 게시글들의 인사이트 정보를 업데이트합니다.
