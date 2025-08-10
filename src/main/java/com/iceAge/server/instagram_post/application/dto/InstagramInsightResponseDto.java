@@ -1,6 +1,5 @@
 package com.iceAge.server.instagram_post.application.dto;
 
-import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -21,6 +20,4 @@ public class InstagramInsightResponseDto {
     private final String insightsStartDate;
 
     private final String insightsEndDate;
-
-    private final List<String> comments;
 }

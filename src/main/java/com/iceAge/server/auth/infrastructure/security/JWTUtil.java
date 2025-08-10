@@ -1,6 +1,8 @@
 package com.iceAge.server.auth.infrastructure.security;
 
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import javax.crypto.SecretKey;
@@ -29,8 +31,21 @@ public class JWTUtil {
     }
 
     public Boolean isExpired(String token) {
-
-        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
+        try {
+            Date expiration = Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .getExpiration();
+            return expiration.before(new Date());
+        } catch (ExpiredJwtException e) {
+            // 만료된 토큰
+            return true;
+        } catch (JwtException | IllegalArgumentException e) {
+            // 서명오류/형식오류 등 토큰이 유효하지 않으면 만료로 간주하여 인증 불가 처리
+            return true;
+        }
     }
 
     public String createJwt(String username, String role, Long expiredMs) {

@@ -54,7 +54,6 @@ public class InstagramInsightService {
         log.info("모든 인스타그램 포스트 인사이트 업데이트 완료 - 성공: {}, 실패: {}", successCount, failCount);
     }
 
-
     /**
      * 단일 포스트의 인사이트를 업데이트합니다.
      */

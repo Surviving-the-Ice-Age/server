@@ -2,12 +2,15 @@ package com.iceAge.server.auth.infrastructure.security;
 
 import com.iceAge.server.auth.application.dto.CustomOAuth2User;
 import com.iceAge.server.auth.application.dto.UserDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -50,13 +53,16 @@ public class JWTFilter extends OncePerRequestFilter {
         // 토큰
         String token = authorization;
 
-        // 토큰 소멸 시간 검증
+        // 토큰 소멸 또는 유효성 검증
         if (jwtUtil.isExpired(token)) {
-
-            log.info("token expired");
-            filterChain.doFilter(request, response);
-
-            // 조건이 해당되면 메소드 종료 (필수)
+            log.info("token expired or invalid");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json;charset=UTF-8");
+            Map<String, Object> body = new HashMap<>();
+            body.put("code", "U401");
+            body.put("message", "인증 토큰이 만료되었거나 유효하지 않습니다.");
+            body.put("data", null);
+            new ObjectMapper().writeValue(response.getWriter(), body);
             return;
         }
 
